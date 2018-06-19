@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="js" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Qiita All Contributions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Qiita すべての投稿</h1>
+        <div id="dashboard"></div>
+      </div>
+    </section>
+
+
+    <script type="text/javascript">
+      function rendarDashboard(json) {
+        console.log(json)
+        var dashboard = document.getElementById("dashboard")
+
+        for (var item of json) {
+          var div = document.createElement("div")
+          div.classList.add("box")
+
+          div.innerHTML = "<p>"
+          div.innerHTML += "<strong>" + item.title + "</strong><br>"
+          div.innerHTML += "公開日時: " + item.created_at + "<br>"
+          div.innerHTML += "いいね: " + item.likes_count + "<br>"
+          div.innerHTML += "タグ: "
+
+          for (var tag of item.tags) {
+            div.innerHTML += "<span class='button is-rounded is-small is-primary'>" + tag.name + "</span>"
+          }
+          div.innerHTML += "</p>"
+
+          dashboard.appendChild(div)
+        }
+      }
+
+      fetch("https://qiita.com/api/v2/items")
+        .then(res => res.json())
+        .then(json => rendarDashboard(json))
+    </script>
+  </body>
+
+</html>

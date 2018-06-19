@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Qiita All Contributions(Use Vue.js)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app" class="section">
+      <div class="container">
+        <h1 class="title">Qiita すべての投稿(vue.js使用)</h1>
+        <div class="box" v-for="item in items">
+          <p>
+            <strong>{{item.title}}</strong><br>
+            公開日時: {{item.created_at}}<br>
+            いいね: {{item.likes_count}}<br>
+            タグ: <span class='button is-rounded is-small is-primary'
+                  v-for="tag in item.tags">{{tag.name}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var app = new Vue({
+        el: "#app",
+        data: {
+          items: []
+        },
+        created: async function() {
+            var res = await fetch("https://qiita.com/api/v2/items")
+            this.items = await res.json()
+        }
+      })
+    </script>
+  </body>
+</html>
